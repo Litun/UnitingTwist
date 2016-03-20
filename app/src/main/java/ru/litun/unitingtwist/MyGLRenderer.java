@@ -15,6 +15,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
     private Hexagon mHexagon;
+    private Hexagon mHexagon2;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -33,6 +34,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         //mHexagon = new Hexagon(mProgram);
         mHexagon = new Hexagon();
+        mHexagon2 = new Hexagon();
     }
 
     @Override
@@ -66,7 +68,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
 
         // Draw triangle
-        //mTriangle.draw(scratch);
+        mHexagon2.draw(scratch);
     }
 
     @Override
@@ -85,6 +87,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void setUp(float x, float y) {
         upX = x;
         upY = y;
+
+        double atan = -Math.atan(x / y);
+        mAngle = (float) (atan / Math.PI * 180);
     }
 
     /**
