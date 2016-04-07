@@ -12,6 +12,8 @@ import java.nio.ShortBuffer;
  */
 public class Hexagon {
 
+    private final float scale = 0.15f;
+    private float position[] = {0f, 0f, 0f};
 
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
@@ -32,7 +34,7 @@ public class Hexagon {
                     "  gl_FragColor = vColor;" +
                     "}";
 
-    private final FloatBuffer vertexBuffer;
+    private FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
     private final int mProgram;
     private int mPositionHandle;
@@ -41,14 +43,20 @@ public class Hexagon {
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float squareCoords[] = {
+    static float hexagonCoords[] = {
             0.0f, 0.0f, 0.0f, // center
-            0.5f, 0.0f, 0.0f, // right
-            0.25f, 0.433f, 0.0f, // top right
-            -0.25f, 0.433f, 0.0f, // top left
-            -0.5f, 0.0f, 0.0f, // left
-            -0.25f, -0.433f, 0.0f, // bottom left
-            0.25f, -0.433f, 0.0f  // bottom right
+//            0.5f, 0.0f, 0.0f, // right
+//            0.25f, 0.433f, 0.0f, // top right
+//            -0.25f, 0.433f, 0.0f, // top left
+//            -0.5f, 0.0f, 0.0f, // left
+//            -0.25f, -0.433f, 0.0f, // bottom left
+//            0.25f, -0.433f, 0.0f  // bottom right
+            0f, -1f, 0f, //bottom
+            -0.866f, -0.5f, 0f, //left bottom
+            -0.866f, 0.5f, 0f, //left top
+            0f, 1f, 0f, //top
+            0.866f, 0.5f, 0f, //right top
+            0.866f, -0.5f, 0f //right bottom
     };
 
     private final short drawOrder[] = {0, 1, 2, 2, 3, 0, 0, 3, 4, 4, 5, 0, 0, 5, 6, 6, 1, 0}; // order to draw vertices
@@ -57,18 +65,21 @@ public class Hexagon {
 
     float color[] = {0.2f, 0.709803922f, 0.898039216f, 1.0f};
 
+    ByteBuffer bb;
+
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
     public Hexagon() {
         // initialize vertex byte buffer for shape coordinates
-        ByteBuffer bb = ByteBuffer.allocateDirect(
+        bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
-                squareCoords.length * 4);
+                hexagonCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(squareCoords);
+        vertexBuffer.put(hexagonCoords);
         vertexBuffer.position(0);
+
 
         // initialize byte buffer for the draw list
         ByteBuffer dlb = ByteBuffer.allocateDirect(
@@ -91,6 +102,25 @@ public class Hexagon {
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
         GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
+    }
+
+    public void setPosition(float[] position) {
+        this.position = position;
+        updateBuffer();
+    }
+
+    public void updateBuffer() {
+        float[] coords = hexagonCoords.clone();
+        for (int i = 0; i < coords.length; i++)
+            coords[i] *= scale;
+        for (int i = 0; i < coords.length; i += 3) {
+            coords[i] += position[0];
+            coords[i + 1] += position[1];
+            coords[i + 2] += position[2];
+        }
+        vertexBuffer = bb.asFloatBuffer();
+        vertexBuffer.put(coords);
+        vertexBuffer.position(0);
     }
 
     /**

@@ -16,6 +16,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "MyGLRenderer";
     private Hexagon mHexagon;
     private Hexagon mHexagon2;
+    private Hexagon mHexagon3;
+    private Hexagon mHexagon4;
+
+    private GameField field;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -32,9 +36,17 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        //mHexagon = new Hexagon(mProgram);
-        mHexagon = new Hexagon();
-        mHexagon2 = new Hexagon();
+        field= new GameField();
+//        //mHexagon = new Hexagon(mProgram);
+////        mHexagon = new Hexagon();
+//        mHexagon2 = new Hexagon();
+//        mHexagon2.setPosition(new float[]{0f, 0f, 0f});
+//
+//        mHexagon3 = new Hexagon();
+//        mHexagon3.setPosition(new float[]{0.2f, 0.2f, 0f});
+//
+//        mHexagon4 = new Hexagon();
+//        mHexagon4.setPosition(new float[]{0.2f, -0.2f, 0f});
     }
 
     @Override
@@ -51,7 +63,12 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         // Draw hexagon
-        mHexagon.draw(mMVPMatrix);
+//        //mHexagon.draw(mMVPMatrix);
+//        mHexagon2.draw(mMVPMatrix);
+//        mHexagon3.draw(mMVPMatrix);
+//        mHexagon4.draw(mMVPMatrix);
+
+        field.draw(mMVPMatrix);
 
         // Create a rotation for the triangle
 
@@ -68,7 +85,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
 
         // Draw triangle
-        mHexagon2.draw(scratch);
+        //mHexagon2.draw(scratch);
     }
 
     @Override
