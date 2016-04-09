@@ -44,7 +44,7 @@ public class GameField {
     public void newUp(float x, float y) {
         double atan = -Math.atan(x / y);
         float angle = (float) (atan / Math.PI * 180);
-        //graph.rotate(angle);
+        graph.rotate(angle);
         for (GameHexagon h : hexagons)
             h.setAngle(angle);
         //updateHexagons();

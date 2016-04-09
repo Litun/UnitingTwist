@@ -15,7 +15,7 @@ public class FieldGraph {
         points = new Point[gn][gn];
         for (int i = 0; i < gn; i++)
             for (int j = 0; j < gn; j++)
-                points[i][j] = new Point((i - n + 1) - (j - n + 1) * 0.5f * SCALE,
+                points[i][j] = new Point(((i - n + 1) - (j - n + 1) * 0.5f) * SCALE,
                         (j - n + 1) * 0.866f * SCALE, 0f);
 
 //        for (int i = 0; i < gn; i++)

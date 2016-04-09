@@ -133,7 +133,7 @@ public class Hexagon {
     }
 
     float[] scratch = new float[16];
-    float[] mRotationMatrix = new float[16];
+    float[] mMoveMatrix = new float[16];
 
     /**
      * Encapsulates the OpenGL ES instructions for drawing this shape.
@@ -142,14 +142,14 @@ public class Hexagon {
      *                  this shape.
      */
     public void draw(float[] mvpMatrix) {
-
-        Matrix.setRotateM(mRotationMatrix, 0, /*mAngle*/ angle, 0, 0, 1.0f);
-        Matrix.translateM(mRotationMatrix, 0, x, y, 0);
+        Matrix.setIdentityM(mMoveMatrix, 0);
+        Matrix.translateM(mMoveMatrix, 0, x, y, 0);
+        Matrix.rotateM(mMoveMatrix, 0, /*mAngle*/ angle, 0, 0, 1.0f);
 
         // Combine the rotation matrix with the projection and camera view
         // Note that the mMVPMatrix factor *must be first* in order
         // for the matrix multiplication product to be correct.
-        Matrix.multiplyMM(scratch, 0, mvpMatrix, 0, mRotationMatrix, 0);
+        Matrix.multiplyMM(scratch, 0, mvpMatrix, 0, mMoveMatrix, 0);
 
         // Add program to OpenGL environment
         glUseProgram(mProgram);
