@@ -11,18 +11,13 @@ public class GameField {
     public static final int DIM = 3;
     FieldGraph graph = new FieldGraph(DIM);
 
-    private Hexagon mHexagon;
-    private Hexagon mHexagon2;
-    private Hexagon mHexagon3;
-    private Hexagon mHexagon4;
-
-    List<Hexagon> hexagons = new ArrayList<>((DIM * 2 - 1) ^ 2);
+    List<GameHexagon> hexagons = new ArrayList<>((DIM * 2 - 1) ^ 2);
 
     public GameField() {
         for (int i = 0; i < DIM * 2 - 1; i++)
             for (int j = 0; j < DIM * 2 - 1; j++) {
-                Hexagon hexagon = new Hexagon();
-                hexagon.setPosition(graph.points[i][j].asArray());
+                GameHexagon hexagon = new GameHexagon(graph.points[i][j]);
+                //hexagon.setPosition(graph.points[i][j].asArray());
                 hexagons.add(hexagon);
             }
         //mHexagon = new Hexagon(mProgram);
@@ -42,7 +37,23 @@ public class GameField {
 //        mHexagon2.draw(mMVPMatrix);
 //        mHexagon3.draw(mMVPMatrix);
 //        mHexagon4.draw(mMVPMatrix);
-        for (Hexagon h : hexagons)
+        for (GameHexagon h : hexagons)
             h.draw(mMVPMatrix);
     }
+
+    public void newUp(float x, float y) {
+        double atan = -Math.atan(x / y);
+        float angle = (float) (atan / Math.PI * 180);
+        graph.rotate(angle);
+
+        //updateHexagons();
+    }
+
+//    private void updateHexagons() {
+//        for (int i = 0; i < DIM * 2 - 1; i++)
+//            for (int j = 0; j < DIM * 2 - 1; j++) {
+//                Hexagon hexagon = hexagons.get(i + (DIM * 2 - 1)*j);
+//                hexagon.setPosition(graph.points[i][j].asArray());
+//            }
+//    }
 }

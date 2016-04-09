@@ -1,18 +1,31 @@
 package ru.litun.unitingtwist;
 
 import android.opengl.GLES20;
+import android.opengl.Matrix;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import static android.opengl.GLES20.*;
+
 /**
  * Created by Litun on 20.03.2016.
  */
 public class Hexagon {
 
-    private final float scale = 0.15f;
+    private static Hexagon instance;
+
+    public static Hexagon getInstance() {
+        if (instance == null)
+            instance = new Hexagon();
+        return instance;
+    }
+
+    private final float SCALE = 0.1f;
+
+    @Deprecated
     private float position[] = {0f, 0f, 0f};
 
     private final String vertexShaderCode =
@@ -76,10 +89,7 @@ public class Hexagon {
                 // (# of coordinate values * 4 bytes per float)
                 hexagonCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
-        vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(hexagonCoords);
-        vertexBuffer.position(0);
-
+        initVertexBuffer();
 
         // initialize byte buffer for the draw list
         ByteBuffer dlb = ByteBuffer.allocateDirect(
@@ -104,20 +114,16 @@ public class Hexagon {
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
 
+    @Deprecated
     public void setPosition(float[] position) {
         this.position = position;
-        updateBuffer();
+        //updateBuffer();
     }
 
-    public void updateBuffer() {
+    public void initVertexBuffer() {
         float[] coords = hexagonCoords.clone();
         for (int i = 0; i < coords.length; i++)
-            coords[i] *= scale;
-        for (int i = 0; i < coords.length; i += 3) {
-            coords[i] += position[0];
-            coords[i + 1] += position[1];
-            coords[i + 2] += position[2];
-        }
+            coords[i] *= SCALE;
         vertexBuffer = bb.asFloatBuffer();
         vertexBuffer.put(coords);
         vertexBuffer.position(0);
@@ -130,17 +136,29 @@ public class Hexagon {
      *                  this shape.
      */
     public void draw(float[] mvpMatrix) {
+
+        float[] scratch = new float[16];
+        float[] mRotationMatrix = new float[16];
+
+        Matrix.setRotateM(mRotationMatrix, 0, /*mAngle*/ angle, 0, 0, 1.0f);
+        Matrix.translateM(mRotationMatrix, 0, x, y, 0);
+
+        // Combine the rotation matrix with the projection and camera view
+        // Note that the mMVPMatrix factor *must be first* in order
+        // for the matrix multiplication product to be correct.
+        Matrix.multiplyMM(scratch, 0, mvpMatrix, 0, mRotationMatrix, 0);
+
         // Add program to OpenGL environment
-        GLES20.glUseProgram(mProgram);
+        glUseProgram(mProgram);
 
         // get handle to vertex shader's vPosition member
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
 
         // Enable a handle to the triangle vertices
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        glEnableVertexAttribArray(mPositionHandle);
 
         // Prepare the triangle coordinate data
-        GLES20.glVertexAttribPointer(
+        glVertexAttribPointer(
                 mPositionHandle, COORDS_PER_VERTEX,
                 GLES20.GL_FLOAT, false,
                 vertexStride, vertexBuffer);
@@ -149,23 +167,54 @@ public class Hexagon {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        glUniform4fv(mColorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
         MyGLRenderer.checkGlError("glGetUniformLocation");
 
         // Apply the projection and view transformation
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
+        glUniformMatrix4fv(mMVPMatrixHandle, 1, false, scratch, 0);
         MyGLRenderer.checkGlError("glUniformMatrix4fv");
 
         // Draw the square
-        GLES20.glDrawElements(
+        glDrawElements(
                 GLES20.GL_TRIANGLES, drawOrder.length,
                 GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
         // Disable vertex array
-        GLES20.glDisableVertexAttribArray(mPositionHandle);
+        glDisableVertexAttribArray(mPositionHandle);
+
+        /*
+        MMatrix = identity;
+        MVPMatrix = VPMatrix * MMatrix;
+        glUniformMatrix4fv(MVPHandle, 1, FALSE, MVPMatrix.ptr());
+        glDrawArrays(GL_TRIANGLES, 0, 3); //draw triangle at 0,0,0
+
+        MMatrix.translate(1,0,0);
+        MVPMatrix = VPMatrix * MMatrix;
+        glUniformMatrix4fv(MVPHandle, 1, FALSE, MVPMatrix.ptr());
+        glDrawArrays(GL_TRIANGLES, 0, 3); //draw triangle at 1,0,0
+
+        MMatrix.translate(1,0,0);
+        MVPMatrix = VPMatrix * MMatrix;
+        glUniformMatrix4fv(MVPHandle, 1, FALSE, MVPMatrix.ptr());
+        glDrawArrays(GL_TRIANGLES, 0, 3); //draw triangle at 2,0,0
+
+        repeat for as many objects as you want..
+        This will leave you with three triangles, at (0,0,0), (1,0,0), and (2,0,0).
+        */
     }
 
+    float angle = 0f;
+    float x = 0f, y = 0f;
+
+    public void translate(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void rotate(float angle) {
+        this.angle = angle;
+    }
 }
