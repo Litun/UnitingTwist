@@ -38,7 +38,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 //        mHexagon = new Hexagon(mProgram);
-        mHexagon = Hexagon.getInstance();
+        mHexagon = Hexagon.init();
 //        mHexagon2 = new Hexagon();
 ////        mHexagon2.setPosition(new float[]{0f, 0f, 0f});
 //
@@ -57,7 +57,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         // Set the camera position (View matrix)
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, upX, upY, 0.0f);
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0, 1, 0.0f);
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);

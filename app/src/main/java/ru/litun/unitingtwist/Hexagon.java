@@ -17,13 +17,16 @@ public class Hexagon {
 
     private static Hexagon instance;
 
-    public static Hexagon getInstance() {
-        if (instance == null)
-            instance = new Hexagon();
+    public static Hexagon init() {
+        instance = new Hexagon();
         return instance;
     }
 
-    private final float SCALE = 0.1f;
+    public static Hexagon getInstance() {
+        return instance;
+    }
+
+    private final float SCALE = 0.05f;
 
     @Deprecated
     private float position[] = {0f, 0f, 0f};
@@ -129,6 +132,9 @@ public class Hexagon {
         vertexBuffer.position(0);
     }
 
+    float[] scratch = new float[16];
+    float[] mRotationMatrix = new float[16];
+
     /**
      * Encapsulates the OpenGL ES instructions for drawing this shape.
      *
@@ -136,9 +142,6 @@ public class Hexagon {
      *                  this shape.
      */
     public void draw(float[] mvpMatrix) {
-
-        float[] scratch = new float[16];
-        float[] mRotationMatrix = new float[16];
 
         Matrix.setRotateM(mRotationMatrix, 0, /*mAngle*/ angle, 0, 0, 1.0f);
         Matrix.translateM(mRotationMatrix, 0, x, y, 0);
