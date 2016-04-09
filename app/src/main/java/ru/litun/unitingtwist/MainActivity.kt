@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(), AngleListener {
     override fun onResume() {
         super.onResume()
         surface.onResume()
-        sensorManager.registerListener(listener, gyroscope, SensorManager.SENSOR_DELAY_FASTEST)
+        sensorManager.registerListener(listener, gyroscope, SensorManager.SENSOR_DELAY_GAME)
     }
 
     override fun onPause() {

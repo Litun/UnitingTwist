@@ -7,7 +7,7 @@ public class Scene implements Drawable {
 
     GameField field;
 
-    Point point = new Point(0.5f, 0.5f, 0f);
+    Point point = new Point(0.2f, 0.2f, 0f);
     GameHexagon hexagon = new GameHexagon(point);
 
     public Scene() {

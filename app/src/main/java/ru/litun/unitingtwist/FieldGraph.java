@@ -8,7 +8,7 @@ import android.opengl.Matrix;
 public class FieldGraph {
     int gn;
     Point[][] points;
-    final float SCALE = 0.3f;
+    final float SCALE = 0.1f;
 
     public FieldGraph(int n) {
         gn = n * 2 - 1;
