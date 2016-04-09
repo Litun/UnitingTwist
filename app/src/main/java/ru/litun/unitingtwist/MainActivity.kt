@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity(), AngleListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
 
         // Create an OpenGL ES 2.0 context.
@@ -29,6 +28,7 @@ class MainActivity : AppCompatActivity(), AngleListener {
 
         // Render the view only when there is a change in the drawing data
         surface.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
+        ColorUtils.init(this)
     }
 
     override fun onResume() {

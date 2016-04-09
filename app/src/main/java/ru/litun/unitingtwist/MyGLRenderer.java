@@ -20,7 +20,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private Hexagon mHexagon4;
 
     private GameField field = new GameField();
-    private Drawable scene = new Scene(field);
+    private Scene scene = new Scene(field);
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];

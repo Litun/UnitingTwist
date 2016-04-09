@@ -16,6 +16,7 @@ public class GameHexagon implements Drawable {
         Hexagon hexagon = Hexagon.getInstance();
         hexagon.rotate(angle);
         hexagon.translate(point.getX(), point.getY());
+        //hexagon.setColor();
         hexagon.draw(mvpMatrix);
     }
 

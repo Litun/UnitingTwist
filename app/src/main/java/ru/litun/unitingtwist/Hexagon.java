@@ -28,9 +28,6 @@ public class Hexagon {
 
     private final float SCALE = 0.05f;
 
-    @Deprecated
-    private float position[] = {0f, 0f, 0f};
-
     private final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
             // the coordinates of the objects that use this vertex shader
@@ -117,12 +114,6 @@ public class Hexagon {
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
     }
 
-    @Deprecated
-    public void setPosition(float[] position) {
-        this.position = position;
-        //updateBuffer();
-    }
-
     public void initVertexBuffer() {
         float[] coords = hexagonCoords.clone();
         for (int i = 0; i < coords.length; i++)
@@ -170,7 +161,7 @@ public class Hexagon {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-        glUniform4fv(mColorHandle, 1, color, 0);
+        glUniform4fv(mColorHandle, 1, ColorUtils.greenColor, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
@@ -219,5 +210,9 @@ public class Hexagon {
 
     public void rotate(float angle) {
         this.angle = angle;
+    }
+
+    public void setColor(float[] color) {
+        this.color = color;
     }
 }
