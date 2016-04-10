@@ -41,4 +41,8 @@ public class GameHexagon implements Drawable {
         point.setX(point.getX() + x);
         point.setY(point.getY() + y);
     }
+
+    public Point getPoint() {
+        return point;
+    }
 }

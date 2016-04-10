@@ -14,4 +14,8 @@ class GraphPoint(val x: Int, val y: Int, val point: Point) : Comparable<GraphPoi
 
     var visited: Boolean = false
     var hasObject: Boolean = false
+
+    fun distance(other: Point): Float =
+            Math.sqrt (((other.x - point.x) * (other.x - point.x) +
+                    (other.y - point.y) * (other.y - point.y)).toDouble()).toFloat()
 }

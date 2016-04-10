@@ -3,10 +3,12 @@ package ru.litun.unitingtwist;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -76,6 +78,8 @@ public class Scene implements Drawable {
 
         for (FlyingHexagon hexagon : flyingHexagons)
             hexagon.update(delta);
+
+        collisionDetect();
     }
 
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -90,6 +94,7 @@ public class Scene implements Drawable {
                 double k = 2 / Math.sqrt(x * x + y * y);
                 Point point = new Point((float) (x * k), (float) (y * k), 0f);
                 GameHexagon gameHexagon = new GameHexagon(point);
+                gameHexagon.setColor(r.nextInt(6) + 1);
                 final FlyingHexagon flyingHexagon = new FlyingHexagon(gameHexagon);
                 flyingHexagon.setVector((float) -(x * k * 0.1), (float) -(y * k * 0.1));
                 handler.post(new Runnable() {
@@ -101,5 +106,24 @@ public class Scene implements Drawable {
             }
         };
         timer.schedule(task, 5000, 10000);
+    }
+
+    /**
+     * Collisions
+     */
+    private void collisionDetect() {
+        List<GraphPoint> opened = new ArrayList<>(field.graph.getOpened());
+        for (int i = 0; i < flyingHexagons.size(); i++) {
+            FlyingHexagon hexagon = flyingHexagons.get(i);
+            Point point = hexagon.getHexagon().getPoint();
+            for (GraphPoint openPoint : opened) {
+                float distance = openPoint.distance(point);
+                if (distance < 0.05f) {
+                    flyingHexagons.remove(i);
+                    GameHexagon hexagon1 = hexagon.getHexagon();
+                    field.addGameHex(hexagon1, openPoint);
+                }
+            }
+        }
     }
 }

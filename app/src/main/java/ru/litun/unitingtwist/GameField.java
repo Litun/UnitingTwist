@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class GameField {
 
-    public static final int DIM = 6;
+    public static final int DIM = 7;
     FieldGraph graph = new FieldGraph(DIM);
 
     List<GameHexagon> hexagons = new ArrayList<>((DIM * 2 - 1) ^ 2);
@@ -36,12 +36,8 @@ public class GameField {
             h.setAngle(angle);
     }
 
-    public void addGameHex(GameHexagon hexagon) {
+    public void addGameHex(GameHexagon hexagon, GraphPoint openPoint) {
         hexagons.add(hexagon);
-        Set<GraphPoint> opened = graph.getOpened();
-        Random r = new Random();
-        int i = r.nextInt(opened.size());
-        GraphPoint openPoint = opened.toArray(new GraphPoint[opened.size()])[i];
         hexagon.newPoint(openPoint.getPoint());
         openPoint.setHasObject(true);
         graph.hexAdded(openPoint);
