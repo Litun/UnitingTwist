@@ -28,4 +28,17 @@ public class GameHexagon implements Drawable {
     public void setAngle(float angle) {
         this.angle = angle;
     }
+
+    public void newPoint(Point p) {
+        point = p;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public void move(float x, float y) {
+        point.setX(point.getX() + x);
+        point.setY(point.getY() + y);
+    }
 }

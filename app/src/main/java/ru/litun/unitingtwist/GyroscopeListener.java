@@ -61,8 +61,8 @@ public class GyroscopeListener implements SensorEventListener {
                 angle += z * delta / 1000;
                 angle = (float) ((angle + Math.PI * 2) % (Math.PI * 2));
 
-                double sin = Math.sin(-angle);
-                double cos = Math.cos(-angle);
+                double sin = Math.sin(angle);
+                double cos = Math.cos(angle);
 
                 //mRenderer.setAngle(angle);
                 listener.setUp((float) cos, (float) sin);
