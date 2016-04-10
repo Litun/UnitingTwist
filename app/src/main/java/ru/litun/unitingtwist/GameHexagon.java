@@ -6,6 +6,7 @@ package ru.litun.unitingtwist;
 public class GameHexagon implements Drawable {
     private Point point;
     private float angle = 0f;
+    private int color = 0;
 
     public GameHexagon(Point p) {
         point = p;
@@ -16,7 +17,7 @@ public class GameHexagon implements Drawable {
         Hexagon hexagon = Hexagon.getInstance();
         hexagon.rotate(angle);
         hexagon.translate(point.getX(), point.getY());
-        //hexagon.setColor();
+        hexagon.setColor(color);
         hexagon.draw(mvpMatrix);
     }
 

@@ -161,7 +161,7 @@ public class Hexagon {
         mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-        glUniform4fv(mColorHandle, 1, ColorUtils.greenColor, 0);
+        glUniform4fv(mColorHandle, 1, color, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
@@ -212,7 +212,7 @@ public class Hexagon {
         this.angle = angle;
     }
 
-    public void setColor(float[] color) {
-        this.color = color;
+    public void setColor(int colorInd) {
+        this.color = ColorUtils.getColor(colorInd);
     }
 }

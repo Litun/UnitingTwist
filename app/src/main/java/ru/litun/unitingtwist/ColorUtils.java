@@ -33,7 +33,6 @@ public class ColorUtils {
         greenColor = new float[]{Color.red(green), Color.green(green), Color.blue(green), Color.alpha(green)};
         for (int i = 0; i < greyColor.length; i++) {
             greyColor[i] /= 256f;
-            greyColor[i] /= 256f;
             redColor[i] /= 256f;
             orangeColor[i] /= 256f;
             yellowColor[i] /= 256f;
@@ -41,6 +40,24 @@ public class ColorUtils {
             oceanColor[i] /= 256f;
             greenColor[i] /= 256f;
         }
+    }
 
+    public static float[] getColor(int n) {
+        switch (n) {
+            case 1:
+                return redColor;
+            case 2:
+                return orangeColor;
+            case 3:
+                return yellowColor;
+            case 4:
+                return blueColor;
+            case 5:
+                return oceanColor;
+            case 6:
+                return greenColor;
+            default:
+                return greyColor;
+        }
     }
 }

@@ -8,18 +8,23 @@ import java.util.List;
  */
 public class GameField {
 
-    public static final int DIM = 3;
+    public static final int DIM = 6;
     FieldGraph graph = new FieldGraph(DIM);
 
     List<GameHexagon> hexagons = new ArrayList<>((DIM * 2 - 1) ^ 2);
 
     public GameField() {
-        for (int i = 0; i < DIM * 2 - 1; i++)
-            for (int j = 0; j < DIM * 2 - 1; j++) {
-                GameHexagon hexagon = new GameHexagon(graph.points[i][j]);
-                //hexagon.setPosition(graph.points[i][j].asArray());
-                hexagons.add(hexagon);
-            }
+//        for (int i = 0; i < DIM * 2 - 1; i++)
+//            for (int j = 0; j < DIM * 2 - 1; j++) {
+//                GameHexagon hexagon = new GameHexagon(graph.points[i][j]);
+//                //hexagon.setPosition(graph.points[i][j].asArray());
+//                hexagons.add(hexagon);
+//            }
+
+        GameHexagon hexagon = new GameHexagon(graph.center.getPoint());
+        //hexagon.setPosition(graph.points[i][j].asArray());
+        hexagons.add(hexagon);
+
         //mHexagon = new Hexagon(mProgram);
 //        mHexagon = new Hexagon();
 //        mHexagon2 = new Hexagon();
