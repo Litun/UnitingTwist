@@ -49,7 +49,7 @@ public class FieldGraph implements Drawable {
     public void put(GraphGameHexagon hexagon) {
         resetVisits();
         //find 3
-        List<GraphGameHexagon> remove = new LinkedList<>();
+        final List<GraphGameHexagon> remove = new LinkedList<>();
         final int color = hexagon.getHexagon().getColor();
         final Queue<GraphGameHexagon> queue = new LinkedList<>();
         queue.add(hexagon);
@@ -59,10 +59,10 @@ public class FieldGraph implements Drawable {
                 continue;
             hex.setVisited(true);
             remove.add(hex);
-            iterateNear(hex, new Action() {
+            iterateNearHexagons(hex, new Action() {
                 @Override
                 public void act(GraphGameHexagon h) {
-                    if (h.hasHexagon() && h.getHexagon().getColor() == color)
+                    if (h.getHexagon().getColor() == color)
                         queue.add(h);
                 }
             });
@@ -74,9 +74,45 @@ public class FieldGraph implements Drawable {
         //TODO: cut
         boolean cut = true;
 
+        if (remove.size() > 2) {
+            cut = true;
+
+            //mark visited
+            final Queue<GraphGameHexagon> stayQueue = new LinkedList<>();
+            stayQueue.add(center);
+            while (stayQueue.size() > 0) {
+                GraphGameHexagon point = stayQueue.poll();
+                if (point.isVisited())
+                    continue;
+                point.setVisited(true);
+                iterateNearHexagons(point, new Action() {
+                    @Override
+                    public void act(GraphGameHexagon h) {
+                        stayQueue.add(h);
+                    }
+                });
+            }
+
+            //cut outside
+            iteratePoints(new Action() {
+                @Override
+                public void act(GraphGameHexagon h) {
+                    if (!h.isVisited())
+                        remove.add(h);
+                }
+            });
+
+            removeCluster(remove);
+        }
+
         //recount opened and endpoints
         if (cut) totalRecount();
         //TODO: recount opened and endpoint
+    }
+
+    void removeCluster(List<GraphGameHexagon> list){
+        for (int i=0; i<list.size();i++)
+            list.get(i).removeHexagon();
     }
 
     public void totalRecount() {
@@ -196,11 +232,11 @@ public class FieldGraph implements Drawable {
         }
     }
 
-    private void iterateNearNotVisited(GraphGameHexagon hexagon, final Action action) {
+    private void iterateNearHexagons(GraphGameHexagon hexagon, final Action action) {
         iterateNear(hexagon, new Action() {
             @Override
             public void act(GraphGameHexagon h) {
-                if (!h.isVisited()) action.act(h);
+                if (h.hasHexagon()) action.act(h);
             }
         });
     }

@@ -61,4 +61,9 @@ public class GraphGameHexagon extends GameHexagonContainer implements Comparable
         else if (j < other.j) return -1;
         else return 0;
     }
+
+    public void removeHexagon() {
+        hexagon = null;
+    }
+
 }
