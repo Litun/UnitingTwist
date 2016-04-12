@@ -44,9 +44,10 @@ public class GameField implements Drawable {
     public void update(long deltaTime) {
         float k = deltaTime / 1000f;
 
-        for (FlyingGameHexagon hexagon : flyingHexagons)
+        for (int i = 0; i < flyingHexagons.size(); i++) {
+            FlyingGameHexagon hexagon = flyingHexagons.get(i);
             hexagon.update(deltaTime);
-
+        }
         collisionDetect();
     }
 
