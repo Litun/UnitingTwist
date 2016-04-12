@@ -28,7 +28,7 @@ public class GameField implements Drawable {
         graph.put(center);
     }
 
-    public void setGameListener(GameListener listener){
+    public void setGameListener(GameListener listener) {
         graph.setGameListener(listener);
     }
 
@@ -63,14 +63,22 @@ public class GameField implements Drawable {
     private final Handler handler = new Handler(Looper.getMainLooper());
 
     private Timer timer = new Timer();
+    private double previousAngle = 0f;
+    private double velocity = 0.1;
 
     private TimerTask newGenerator() {
         return new TimerTask() {
             @Override
             public void run() {
-                //TODO: fix generator
-                int x = random.nextInt(21) - 10;
-                int y = random.nextInt(21) - 10;
+                //TODO: improve regeneration
+                double angle = (float) Math.PI * random.nextFloat() * 2;
+                while (Math.abs(previousAngle - angle) < 1)
+                    angle = (float) Math.PI * random.nextFloat() * 2;
+                previousAngle = angle;
+
+                double x = Math.cos(angle);
+                double y = Math.sin(angle);
+
                 double k = 2 / Math.sqrt(x * x + y * y);
                 Point point = new Point((float) (x * k), (float) (y * k), 0f);
                 GameHexagon gameHexagon = new GameHexagon(point);
@@ -78,7 +86,8 @@ public class GameField implements Drawable {
                 final FlyingGameHexagon flyingHexagon = new FlyingGameHexagon(gameHexagon);
                 double angleRad = Math.atan2(y, x);
                 angleRad += random.nextDouble() - 0.5;
-                flyingHexagon.setVector((float) -(x * k * 0.1), (float) -(y * k * 0.1));
+                flyingHexagon.setVector((float) -(x * k * velocity), (float) -(y * k * velocity));
+                velocity += 0.005;
 
                 //run on ui thread
                 handler.post(new Runnable() {
