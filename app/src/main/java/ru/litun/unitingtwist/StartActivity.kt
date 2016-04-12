@@ -17,5 +17,6 @@ class StartActivity : AppCompatActivity() {
     fun startGame() {
         val intent = Intent(this, MainActivity::class.java)
         startActivityForResult(intent, 3)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 }
