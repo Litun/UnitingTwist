@@ -54,7 +54,8 @@ public class GameField implements Drawable {
     public void draw(float[] mvpMatrix) {
         graph.draw(mvpMatrix);
 
-        for (FlyingGameHexagon hex : flyingHexagons) {
+        for (int i = 0; i < flyingHexagons.size(); i++) {
+            FlyingGameHexagon hex = flyingHexagons.get(i);
             GameHexagon h = hex.getHexagon();
             h.draw(mvpMatrix);
         }
@@ -66,7 +67,7 @@ public class GameField implements Drawable {
         graph.rotate(angle);
     }
 
-    private Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     public void scheduleTask() {
         Timer timer = new Timer();
@@ -74,14 +75,18 @@ public class GameField implements Drawable {
             @Override
             public void run() {
                 //TODO: fix generator
-                int x = random.nextInt(20);
-                int y = random.nextInt(20);
+                int x = random.nextInt(21) - 10;
+                int y = random.nextInt(21) - 10;
                 double k = 2 / Math.sqrt(x * x + y * y);
                 Point point = new Point((float) (x * k), (float) (y * k), 0f);
                 GameHexagon gameHexagon = new GameHexagon(point);
                 gameHexagon.setColor(random.nextInt(6) + 1);
                 final FlyingGameHexagon flyingHexagon = new FlyingGameHexagon(gameHexagon);
+                double angleRad = Math.atan2(y, x);
+                angleRad += random.nextDouble() - 0.5;
                 flyingHexagon.setVector((float) -(x * k * 0.1), (float) -(y * k * 0.1));
+
+                //run on ui thread
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
