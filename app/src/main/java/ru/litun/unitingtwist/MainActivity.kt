@@ -6,6 +6,7 @@ import android.hardware.SensorManager
 import android.opengl.GLSurfaceView
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 
 // Using R.layout.activity_main from the main source set
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,12 +36,14 @@ class MainActivity : AppCompatActivity(), AngleListener {
         super.onResume()
         surface.onResume()
         sensorManager.registerListener(listener, gyroscope, SensorManager.SENSOR_DELAY_GAME)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     override fun onPause() {
         super.onPause()
         surface.onPause()
         sensorManager.unregisterListener(listener)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun setUp(x: Float, y: Float) {
