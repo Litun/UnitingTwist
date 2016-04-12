@@ -13,4 +13,14 @@
         android:layout_height="64dp"
         android:layout_gravity="center"
         android:src="@drawable/hexagon" />
+
+    <TextView
+        android:id="@+id/scoreView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center"
+        android:text="score:80\nbest score: 100"
+        android:textColor="@color/grey"
+        android:typeface="monospace" />
 </FrameLayout>

@@ -1,6 +1,7 @@
 package ru.litun.unitingtwist
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.opengl.GLSurfaceView
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(), AngleListener {
 
     var score by  Delegates.observable(0) {
         prop, old, new ->
-        println("$old -> $new")
+        scoreView.text = new.toString()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity(), AngleListener {
             }
 
             override fun onLose() {
-                finish()
+                lose()
             }
 
         })
@@ -81,5 +82,12 @@ class MainActivity : AppCompatActivity(), AngleListener {
         field.newUp(x, y)
         scene.update()
         surface.requestRender()
+    }
+
+    fun lose() {
+        val intent = Intent();
+        intent.putExtra("score", score);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
