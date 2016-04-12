@@ -13,6 +13,11 @@ public class GameHexagon implements Drawable {
     }
 
     @Override
+    public void update(long deltaTime) {
+
+    }
+
+    @Override
     public void draw(float[] mvpMatrix) {
         Hexagon hexagon = Hexagon.getInstance();
         hexagon.rotate(angle);
@@ -34,7 +39,7 @@ public class GameHexagon implements Drawable {
     }
 
     public void setColor(int color) {
-        this.color = color;
+        this.color = color % 7;
     }
 
     public void move(float x, float y) {
@@ -45,4 +50,9 @@ public class GameHexagon implements Drawable {
     public Point getPoint() {
         return point;
     }
+
+    public int getColor() {
+        return color;
+    }
+
 }
