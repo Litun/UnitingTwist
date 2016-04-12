@@ -36,8 +36,6 @@ public class GameField implements Drawable {
                 Log.v("3 found", String.valueOf(points.size()));
             }
         });
-
-        scheduleTask();
     }
 
     @Override
@@ -70,9 +68,10 @@ public class GameField implements Drawable {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
 
-    public void scheduleTask() {
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
+    private Timer timer = new Timer();
+
+    private TimerTask newGenerator() {
+        return new TimerTask() {
             @Override
             public void run() {
                 //TODO: fix generator
@@ -96,7 +95,15 @@ public class GameField implements Drawable {
                 });
             }
         };
-        timer.schedule(task, 1000, 3000);
+    }
+
+    public void startGenerating() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(newGenerator(), 0, 3000);
+    }
+
+    public void stopGenerating() {
+        timer.cancel();
     }
 
     private void collisionDetect() {

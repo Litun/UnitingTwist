@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * Created by Litun on 09.04.2016.
  */
 public class Scene {
-    Drawable field;
+    GameField field;
 
     public Scene() {
         this(new GameField());
@@ -30,20 +30,27 @@ public class Scene {
     }
 
     public void draw(float[] mvpMatrix) {
-        update();
-
         field.draw(mvpMatrix);
     }
 
     private Date date;
 
-    private void update() {
-        if (date == null) {
-            date = new Date();
+    void update() {
+        if (date != null) {
+            Date currentDate = new Date();
+            long delta = currentDate.getTime() - date.getTime();
+            date = currentDate;
+            field.update(delta);
         }
-        Date currentDate = new Date();
-        long delta = currentDate.getTime() - date.getTime();
-        date = currentDate;
-        field.update(delta);
+    }
+
+    void resume() {
+        date = new Date();
+        field.startGenerating();
+    }
+
+    void pause() {
+        date = null;
+        field.stopGenerating();
     }
 }

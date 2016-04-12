@@ -13,10 +13,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), AngleListener {
 
-    val renderer: MyGLRenderer by lazy { MyGLRenderer() }
+    val renderer: MyGLRenderer by lazy { MyGLRenderer(scene) }
     val sensorManager: SensorManager by lazy { getSystemService(Context.SENSOR_SERVICE) as SensorManager }
     val gyroscope: Sensor by lazy { sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) }
     val listener: GyroscopeListener by lazy { GyroscopeListener(this) }
+    val field by lazy { GameField() }
+    val scene by lazy { Scene(field) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity(), AngleListener {
         surface.onResume()
         sensorManager.registerListener(listener, gyroscope, SensorManager.SENSOR_DELAY_GAME)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        scene.resume()
     }
 
     override fun onPause() {
@@ -42,10 +45,13 @@ class MainActivity : AppCompatActivity(), AngleListener {
         surface.onPause()
         sensorManager.unregisterListener(listener)
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        scene.pause()
     }
 
     override fun setUp(x: Float, y: Float) {
         renderer.setUp(x, y)
+        field.newUp(x, y)
+        scene.update()
         surface.requestRender()
     }
 }

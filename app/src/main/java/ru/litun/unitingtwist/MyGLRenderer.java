@@ -19,8 +19,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private Hexagon mHexagon3;
     private Hexagon mHexagon4;
 
-    private GameField field = new GameField();
-    private Scene scene = new Scene(field);
+    private Scene scene;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -30,6 +29,10 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private float mAngle;
     private float upX = 0, upY = 1;
+
+    public MyGLRenderer(Scene scene) {
+        this.scene = scene;
+    }
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -118,8 +121,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         double atan = -Math.atan(x / y);
         mAngle = (float) (atan / Math.PI * 180);
-
-        field.newUp(x, y);
     }
 
     /**
