@@ -76,6 +76,7 @@ public class FieldGraph implements Drawable {
 
         if (remove.size() > 2) {
             cut = true;
+            int scoreC = remove.size() - 2;
 
             //mark visited
             final Queue<GraphGameHexagon> stayQueue = new LinkedList<>();
@@ -106,7 +107,7 @@ public class FieldGraph implements Drawable {
 
             //notify game
             if (listener != null)
-                listener.onCut(remove.size());
+                listener.onCut(remove.size() * scoreC);
         } else {
             //lose check
             float distance = hexagon.distance(center.getPoint());
