@@ -15,7 +15,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
     private Circle circle;
-
     private Scene scene;
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"

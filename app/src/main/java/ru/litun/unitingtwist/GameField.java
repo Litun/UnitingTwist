@@ -5,7 +5,6 @@ import android.os.Looper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -27,15 +26,10 @@ public class GameField implements Drawable {
         GameHexagon hexagon = new GameHexagon(center.getPoint());
         center.setHexagon(hexagon);
         graph.put(center);
-//        graph.recountOpens();
-//        hexagons.add(hexagon);
+    }
 
-        graph.set3Listener(new FieldGraph.ThreeListener() {
-            @Override
-            public void on3found(List<GraphGameHexagon> points) {
-                Log.v("3 found", String.valueOf(points.size()));
-            }
-        });
+    public void setGameListener(GameListener listener){
+        graph.setGameListener(listener);
     }
 
     @Override

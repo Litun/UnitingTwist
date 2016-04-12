@@ -97,12 +97,21 @@ public class FieldGraph implements Drawable {
             iteratePoints(new Action() {
                 @Override
                 public void act(GraphGameHexagon h) {
-                    if (!h.isVisited())
+                    if (h.hasHexagon() && !h.isVisited())
                         remove.add(h);
                 }
             });
 
             removeCluster(remove);
+
+            //notify game
+            if (listener != null)
+                listener.onCut(remove.size());
+        } else {
+            //lose check
+            float distance = hexagon.distance(center.getPoint());
+            if (distance > 0.5f && listener != null)
+                listener.onLose();
         }
 
         //recount opened and endpoints
@@ -110,8 +119,8 @@ public class FieldGraph implements Drawable {
         //TODO: recount opened and endpoint
     }
 
-    void removeCluster(List<GraphGameHexagon> list){
-        for (int i=0; i<list.size();i++)
+    void removeCluster(List<GraphGameHexagon> list) {
+        for (int i = 0; i < list.size(); i++)
             list.get(i).removeHexagon();
     }
 
@@ -185,7 +194,7 @@ public class FieldGraph implements Drawable {
             }
     }
 
-    private ThreeListener listener;
+    private GameListener listener;
 
     int[][] edges = new int[][]{
             new int[]{1, 0},
@@ -196,7 +205,7 @@ public class FieldGraph implements Drawable {
             new int[]{-1, -1}
     };
 
-    public void set3Listener(ThreeListener listener) {
+    public void setGameListener(GameListener listener) {
         this.listener = listener;
     }
 
@@ -243,9 +252,5 @@ public class FieldGraph implements Drawable {
 
     interface Action {
         void act(GraphGameHexagon h);
-    }
-
-    public interface ThreeListener {
-        void on3found(List<GraphGameHexagon> points);
     }
 }

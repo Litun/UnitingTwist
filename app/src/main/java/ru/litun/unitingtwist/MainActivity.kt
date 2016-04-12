@@ -6,10 +6,14 @@ import android.hardware.SensorManager
 import android.opengl.GLSurfaceView
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
+import ru.litun.unitingtwist.GameListener;
 
 // Using R.layout.activity_main from the main source set
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.properties.Delegates
+import kotlin.reflect.KProperty
 
 class MainActivity : AppCompatActivity(), AngleListener {
 
@@ -19,6 +23,11 @@ class MainActivity : AppCompatActivity(), AngleListener {
     val listener: GyroscopeListener by lazy { GyroscopeListener(this) }
     val field by lazy { GameField() }
     val scene by lazy { Scene(field) }
+
+    var score by  Delegates.observable(0) {
+        prop, old, new ->
+        println("$old -> $new")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +39,18 @@ class MainActivity : AppCompatActivity(), AngleListener {
 
         // Render the view only when there is a change in the drawing data
         surface.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
+
+        field.setGameListener (object : GameListener {
+            override fun onCut(n: Int) {
+                score += n
+            }
+
+            override fun onLose() {
+                finish()
+            }
+
+        })
+
     }
 
     override fun onResume() {
@@ -38,6 +59,13 @@ class MainActivity : AppCompatActivity(), AngleListener {
         sensorManager.registerListener(listener, gyroscope, SensorManager.SENSOR_DELAY_GAME)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         scene.resume()
+
+        window.decorView.systemUiVisibility = ( (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or  View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+                or ((View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+                or (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)));
     }
 
     override fun onPause() {

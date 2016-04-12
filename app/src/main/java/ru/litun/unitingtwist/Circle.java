@@ -15,7 +15,7 @@ public class Circle {
     private  int mProgram, mPositionHandle, mColorHandle, mMVPMatrixHandle ;
     private FloatBuffer mVertexBuffer;
     private float vertices[] = new float[364 * 3];
-    float color[] = { 0.05f, 0.05f, 0.05f, 1.0f };
+    float color[] = { 0.08f, 0.08f, 0.08f, 1.0f };
 
     private final String vertexShaderCode =
             "uniform mat4 uMVPMatrix;" +
