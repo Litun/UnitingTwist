@@ -55,17 +55,21 @@ public class FieldGraph implements Drawable {
         queue.add(hexagon);
         while (queue.size() > 0) {
             GraphGameHexagon hex = queue.poll();
+            if (hex.isVisited())
+                continue;
             hex.setVisited(true);
             remove.add(hex);
             iterateNear(hex, new Action() {
                 @Override
                 public void act(GraphGameHexagon h) {
-                    if (h.hasHexagon() && !h.isVisited() && h.getHexagon().getColor() == color)
+                    if (h.hasHexagon() && h.getHexagon().getColor() == color)
                         queue.add(h);
                 }
             });
         }
         Log.v("3", String.valueOf(remove.size()));
+        for (GraphGameHexagon h : remove)
+            Log.v("remove", h.getI() + " " + h.getJ());
 
         //TODO: cut
         boolean cut = true;
@@ -88,12 +92,14 @@ public class FieldGraph implements Drawable {
         queue.add(center);
         while (queue.size() > 0) {
             GraphGameHexagon point = queue.poll();
+            if (point.isVisited())
+                continue;
             point.setVisited(true);
             if (!point.hasHexagon()) {
                 opened.add(point);
                 continue;
             }
-            iterateNearNotVisited(point, new Action() {
+            iterateNear(point, new Action() {
                 @Override
                 public void act(GraphGameHexagon h) {
                     queue.add(h);
