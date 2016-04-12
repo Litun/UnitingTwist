@@ -39,7 +39,7 @@ public class GameHexagon implements Drawable {
     }
 
     public void setColor(int color) {
-        this.color = color % 7;
+        this.color = color;
     }
 
     public void move(float x, float y) {

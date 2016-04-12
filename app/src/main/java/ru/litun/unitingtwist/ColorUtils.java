@@ -10,23 +10,25 @@ import android.support.v4.content.ContextCompat;
 public class ColorUtils {
     public static float[] greyColor;
     public static float[] redColor;
-    public static float[] orangeColor;
+    //public static float[] orangeColor;
     public static float[] yellowColor;
     public static float[] blueColor;
     public static float[] oceanColor;
     public static float[] greenColor;
 
+    private static float[][] colors;
+
     public static void init(Context context) {
         int grey = ContextCompat.getColor(context, R.color.grey);
         int red = ContextCompat.getColor(context, R.color.red);
-        int orange = ContextCompat.getColor(context, R.color.orange);
+        //int orange = ContextCompat.getColor(context, R.color.orange);
         int yellow = ContextCompat.getColor(context, R.color.yellow);
         int blue = ContextCompat.getColor(context, R.color.blue);
         int ocean = ContextCompat.getColor(context, R.color.ocean);
         int green = ContextCompat.getColor(context, R.color.green);
         greyColor = new float[]{Color.red(grey), Color.green(grey), Color.blue(grey), Color.alpha(grey)};
         redColor = new float[]{Color.red(red), Color.green(red), Color.blue(red), Color.alpha(red)};
-        orangeColor = new float[]{Color.red(orange), Color.green(orange), Color.blue(orange), Color.alpha(orange)};
+        //orangeColor = new float[]{Color.red(orange), Color.green(orange), Color.blue(orange), Color.alpha(orange)};
         yellowColor = new float[]{Color.red(yellow), Color.green(yellow), Color.blue(yellow), Color.alpha(yellow)};
         blueColor = new float[]{Color.red(blue), Color.green(blue), Color.blue(blue), Color.alpha(blue)};
         oceanColor = new float[]{Color.red(ocean), Color.green(ocean), Color.blue(ocean), Color.alpha(ocean)};
@@ -34,30 +36,45 @@ public class ColorUtils {
         for (int i = 0; i < greyColor.length; i++) {
             greyColor[i] /= 256f;
             redColor[i] /= 256f;
-            orangeColor[i] /= 256f;
+            //orangeColor[i] /= 256f;
             yellowColor[i] /= 256f;
             blueColor[i] /= 256f;
             oceanColor[i] /= 256f;
             greenColor[i] /= 256f;
         }
+
+        colors = new float[][]{
+                greyColor,
+                redColor,
+                //
+                yellowColor,
+                blueColor,
+                oceanColor,
+                greenColor
+        };
     }
 
     public static float[] getColor(int n) {
-        switch (n) {
-            case 1:
-                return redColor;
-            case 2:
-                return orangeColor;
-            case 3:
-                return yellowColor;
-            case 4:
-                return blueColor;
-            case 5:
-                return oceanColor;
-            case 6:
-                return greenColor;
-            default:
-                return greyColor;
-        }
+        return colors[n % colors.length];
+//        switch (n) {
+//            case 1:
+//                return redColor;
+//            case 2:
+//                return orangeColor;
+//            case 3:
+//                return yellowColor;
+//            case 4:
+//                return blueColor;
+//            case 5:
+//                return oceanColor;
+//            case 6:
+//                return greenColor;
+//            default:
+//                return greyColor;
+//        }
+    }
+
+    public static int colorsCount() {
+        return colors.length;
     }
 }

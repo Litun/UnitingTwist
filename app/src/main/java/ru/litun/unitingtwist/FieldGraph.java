@@ -1,6 +1,7 @@
 package ru.litun.unitingtwist;
 
 import android.opengl.Matrix;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -46,13 +47,16 @@ public class FieldGraph implements Drawable {
     }
 
     public void put(GraphGameHexagon hexagon) {
+        resetVisits();
         //find 3
+        List<GraphGameHexagon> remove = new LinkedList<>();
         final int color = hexagon.getHexagon().getColor();
         final Queue<GraphGameHexagon> queue = new LinkedList<>();
         queue.add(hexagon);
         while (queue.size() > 0) {
             GraphGameHexagon hex = queue.poll();
             hex.setVisited(true);
+            remove.add(hex);
             iterateNear(hex, new Action() {
                 @Override
                 public void act(GraphGameHexagon h) {
@@ -61,6 +65,8 @@ public class FieldGraph implements Drawable {
                 }
             });
         }
+        Log.v("3", String.valueOf(remove.size()));
+
         //TODO: cut
         boolean cut = true;
 

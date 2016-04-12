@@ -80,7 +80,7 @@ public class GameField implements Drawable {
                 double k = 2 / Math.sqrt(x * x + y * y);
                 Point point = new Point((float) (x * k), (float) (y * k), 0f);
                 GameHexagon gameHexagon = new GameHexagon(point);
-                gameHexagon.setColor(random.nextInt(6) + 1);
+                gameHexagon.setColor(random.nextInt(ColorUtils.colorsCount() - 1) + 1);
                 final FlyingGameHexagon flyingHexagon = new FlyingGameHexagon(gameHexagon);
                 double angleRad = Math.atan2(y, x);
                 angleRad += random.nextDouble() - 0.5;

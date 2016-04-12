@@ -68,7 +68,7 @@ public class GyroscopeListener implements SensorEventListener {
                 listener.setUp((float) cos, (float) sin);
                 //mGLView.requestRender();
 
-                System.out.println(angle);
+                //System.out.println(angle);
             }
 
 
