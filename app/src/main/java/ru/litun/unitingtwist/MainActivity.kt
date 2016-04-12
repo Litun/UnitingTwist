@@ -24,12 +24,10 @@ class MainActivity : AppCompatActivity(), AngleListener {
 
         // Create an OpenGL ES 2.0 context.
         surface.setEGLContextClientVersion(2)
-
         surface.setRenderer(renderer)
 
         // Render the view only when there is a change in the drawing data
         surface.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
-        ColorUtils.init(this)
     }
 
     override fun onResume() {
