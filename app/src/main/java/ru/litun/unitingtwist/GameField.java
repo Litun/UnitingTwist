@@ -32,7 +32,7 @@ public class GameField implements Drawable {
 
         graph.set3Listener(new FieldGraph.ThreeListener() {
             @Override
-            public void on3found(List<GraphPoint> points) {
+            public void on3found(List<GraphGameHexagon> points) {
                 Log.v("3 found", String.valueOf(points.size()));
             }
         });

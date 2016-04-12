@@ -148,94 +148,6 @@ public class FieldGraph implements Drawable {
             new int[]{-1, -1}
     };
 
-//    public void recountOpens() {
-//        oldOpened.clear();
-//        Queue<GraphGameHexagon> queue = new LinkedList<>();
-//        queue.add(center);
-//        while (queue.size() > 0) {
-//            GraphGameHexagon point = queue.poll();
-//            point.setVisited(true);
-//            if (!point.hasHexagon()) {
-//                oldOpened.add(point);
-//                continue;
-//            }
-//            int x = point.getX();
-//            int y = point.getY();
-//            for (int[] edge : edges) {
-//                GraphPoint nextPoint = points[x + edge[0]][y + edge[1]];
-//                if (!nextPoint.getVisited())
-//                    queue.add(nextPoint);
-//            }
-//        }
-//        resetVisits();
-//    }
-
-
-//    public void hexAdded(GraphPoint openPoint) {
-//        oldOpened.remove(openPoint);
-//
-//        int x = openPoint.getX();
-//        int y = openPoint.getY();
-//        for (int[] edge : edges) {
-//            GraphPoint nextPoint = points[x + edge[0]][y + edge[1]];
-//            if (nextPoint.getHexObject() == null)
-//                oldOpened.add(nextPoint);
-//        }
-//
-//        check3(x, y);
-//    }
-
-//    private void check3(int x, int y) {
-//        List<GraphPoint> remove = new LinkedList<>();
-//        Queue<GraphPoint> queue = new LinkedList<>();
-//        GraphPoint point1 = points[x][y];
-//        int color = point1.getHexObject().getColor();
-//        queue.add(point1);
-//        while (queue.size() > 0) {
-//            GraphPoint point = queue.poll();
-//            int i = point.getX();
-//            int j = point.getY();
-//            point.setVisited(true);
-//            remove.add(point);
-//            for (int[] edge : edges) {
-//                GraphPoint nextPoint = points[i + edge[0]][j + edge[1]];
-//                GameHexagon hexObject = nextPoint.getHexObject();
-//                if (hexObject != null && hexObject.getColor() == color && !nextPoint.getVisited()) {
-//                    queue.add(nextPoint);
-//                }
-//            }
-//        }
-//
-//        if (remove.size() >= 3) {
-//            Queue<GraphPoint> queue1 = new LinkedList<>();
-//            queue1.add(center);
-//            while (queue1.size() > 0) {
-//                GraphPoint point = queue1.poll();
-//                int i = point.getX();
-//                int j = point.getY();
-//                point.setVisited(true);
-//                for (int[] edge : edges) {
-//                    GraphPoint nextPoint = points[i + edge[0]][j + edge[1]];
-//                    if (!nextPoint.getVisited())
-//                        queue1.add(nextPoint);
-//                }
-//            }
-//
-//            for (int i = 0; i < gn; i++)
-//                for (int j = 0; j < gn; j++) {
-//                    GraphPoint point = points[i][j];
-//                    if (!point.getVisited())
-//                        remove.add(point);
-//                }
-//
-//            if (listener != null)
-//                listener.on3found(remove);
-//
-//            resetVisits();
-//            recountOpens();
-//        }
-//    }
-
     public void set3Listener(ThreeListener listener) {
         this.listener = listener;
     }
@@ -286,6 +198,6 @@ public class FieldGraph implements Drawable {
     }
 
     public interface ThreeListener {
-        void on3found(List<GraphPoint> points);
+        void on3found(List<GraphGameHexagon> points);
     }
 }
