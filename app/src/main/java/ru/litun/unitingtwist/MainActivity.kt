@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), AngleListener {
     val listener: GyroscopeListener by lazy { GyroscopeListener(this) }
     val field by lazy { GameField() }
     val scene by lazy { Scene(field) }
+    val engine by lazy { Engine(scene, surface) }
 
     var score by  Delegates.observable(0) {
         prop, old, new ->
@@ -51,7 +52,11 @@ class MainActivity : AppCompatActivity(), AngleListener {
             }
 
         })
+    }
 
+    override fun onStart() {
+        super.onStart()
+        engine.create()
     }
 
     override fun onResume() {
@@ -59,7 +64,8 @@ class MainActivity : AppCompatActivity(), AngleListener {
         surface.onResume()
         sensorManager.registerListener(listener, gyroscope, SensorManager.SENSOR_DELAY_GAME)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        scene.resume()
+        //scene.resume()
+        engine.resume()
 
         window.decorView.systemUiVisibility = ( (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or  View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
@@ -74,14 +80,21 @@ class MainActivity : AppCompatActivity(), AngleListener {
         surface.onPause()
         sensorManager.unregisterListener(listener)
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        scene.pause()
+        //scene.pause()
+        engine.pause()
     }
 
     override fun setUp(x: Float, y: Float) {
         renderer.setUp(x, y)
         field.newUp(x, y)
-        scene.update()
-        surface.requestRender()
+        engine.forceUpdate()
+        //scene.update()
+        //surface.requestRender()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        engine.destroy()
     }
 
     fun lose() {
