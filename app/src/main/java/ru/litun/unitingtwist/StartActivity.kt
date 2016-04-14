@@ -15,7 +15,7 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
         start.setOnClickListener { startGame() }
-        val best = prefs.getInt("best", -1)
+        best = prefs.getInt("best", -1)
         setText(-1, best)
     }
 
