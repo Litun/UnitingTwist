@@ -4,11 +4,11 @@ It is not just a simple game, but also a new approach to controls.
 <img src="/assets/screenshot_start.png?raw=true" width="256">
 <img src="/assets/screenshot_main.png?raw=true" width="256">
 ## Participation in the [Android Experiment](https://www.androidexperiments.com)
-Using tecnologies:
+Using technologies:
 - OpenGL
 - Gyroscope
 
-[YouTube](https://www.youtube.com/watch?v=R2FHTSs2BoI)
+[Gameplay record](https://www.youtube.com/watch?v=R2FHTSs2BoI)
 
 License
 =======
