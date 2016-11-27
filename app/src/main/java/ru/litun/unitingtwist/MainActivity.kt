@@ -9,12 +9,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import ru.litun.unitingtwist.GameListener;
 
+import kotlin.properties.Delegates
 // Using R.layout.activity_main from the main source set
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.properties.Delegates
-import kotlin.reflect.KProperty
 
 class MainActivity : AppCompatActivity(), AngleListener {
 
@@ -42,7 +40,7 @@ class MainActivity : AppCompatActivity(), AngleListener {
         // Render the view only when there is a change in the drawing data
         surface.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
 
-        field.setGameListener (object : GameListener {
+        field.setGameListener(object : GameListener {
             override fun onCut(n: Int) {
                 score += n
             }
@@ -63,16 +61,15 @@ class MainActivity : AppCompatActivity(), AngleListener {
         super.onResume()
         surface.onResume()
         sensorManager.registerListener(listener, gyroscope, SensorManager.SENSOR_DELAY_GAME)
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //scene.resume()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         engine.resume()
 
-        window.decorView.systemUiVisibility = ( (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or  View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
+        window.decorView.systemUiVisibility = ((View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
                 or ((View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
                 or (View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)));
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)))
     }
 
     override fun onPause() {
@@ -80,7 +77,6 @@ class MainActivity : AppCompatActivity(), AngleListener {
         surface.onPause()
         sensorManager.unregisterListener(listener)
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        //scene.pause()
         engine.pause()
     }
 
@@ -88,8 +84,6 @@ class MainActivity : AppCompatActivity(), AngleListener {
         renderer.setUp(x, y)
         field.newUp(x, y)
         engine.forceUpdate()
-        //scene.update()
-        //surface.requestRender()
     }
 
     override fun onStop() {
@@ -98,9 +92,9 @@ class MainActivity : AppCompatActivity(), AngleListener {
     }
 
     fun lose() {
-        val intent = Intent();
-        intent.putExtra("score", score);
-        setResult(RESULT_OK, intent);
-        finish();
+        val intent = Intent()
+        intent.putExtra("score", score)
+        setResult(RESULT_OK, intent)
+        finish()
     }
 }

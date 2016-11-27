@@ -58,12 +58,6 @@ public class Hexagon {
     static final int COORDS_PER_VERTEX = 3;
     static float hexagonCoords[] = {
             0.0f, 0.0f, 0.0f, // center
-//            0.5f, 0.0f, 0.0f, // right
-//            0.25f, 0.433f, 0.0f, // top right
-//            -0.25f, 0.433f, 0.0f, // top left
-//            -0.5f, 0.0f, 0.0f, // left
-//            -0.25f, -0.433f, 0.0f, // bottom left
-//            0.25f, -0.433f, 0.0f  // bottom right
             0f, -1f, 0f, //bottom
             -0.866f, -0.5f, 0f, //left bottom
             -0.866f, 0.5f, 0f, //left top
@@ -79,6 +73,10 @@ public class Hexagon {
     float color[] = {0.2f, 0.709803922f, 0.898039216f, 1.0f};
 
     ByteBuffer bb;
+
+    private float angle = 0f;
+    private float x = 0f,
+            y = 0f;
 
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
@@ -199,9 +197,6 @@ public class Hexagon {
         This will leave you with three triangles, at (0,0,0), (1,0,0), and (2,0,0).
         */
     }
-
-    float angle = 0f;
-    float x = 0f, y = 0f;
 
     public void translate(float x, float y) {
         this.x = x;

@@ -53,25 +53,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        // Draw hexagon
-//        mHexagon.draw(mMVPMatrix);
-//        mHexagon.translate(0, 0);
-//        mHexagon.draw(mMVPMatrix);
-//
-//        mHexagon.translate(0.1f, 0.1f);
-//        mHexagon.rotate(0.5f);
-//        mHexagon.draw(mMVPMatrix);
-
         circle.draw(mMVPMatrix);
         scene.draw(mMVPMatrix);
-
-//        mHexagon2.draw(mMVPMatrix);
-//        mHexagon3.draw(mMVPMatrix);
-//        mHexagon4.draw(mMVPMatrix);
-
-        //field.draw(mMVPMatrix);
-
-        // Create a rotation for the triangle
 
         // Use the following code to generate constant rotation.
         // Leave this code out when using TouchEvents.
@@ -84,10 +67,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Note that the mMVPMatrix factor *must be first* in order
         // for the matrix multiplication product to be correct.
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
-
-        // Draw triangle
-        //mHexagon2.draw(scratch);
-        //System.out.println(scratch);
     }
 
     @Override

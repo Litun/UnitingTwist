@@ -14,7 +14,7 @@ import java.util.TreeSet;
  * Created by Litun on 07.04.2016.
  */
 public class FieldGraph implements Drawable {
-    int gn;
+    private int gn;
     private GraphGameHexagon[][] points;
     private GraphGameHexagon center;
     private List<GraphGameHexagon> endpoints = new ArrayList<>();
@@ -71,11 +71,7 @@ public class FieldGraph implements Drawable {
         for (GraphGameHexagon h : remove)
             Log.v("remove", h.getI() + " " + h.getJ());
 
-        //TODO: cut
-        boolean cut = true;
-
         if (remove.size() > 2) {
-            cut = true;
             int scoreC = remove.size() - 2;
 
             //mark visited
@@ -115,9 +111,9 @@ public class FieldGraph implements Drawable {
                 listener.onLose();
         }
 
-        //recount opened and endpoints
-        if (cut) totalRecount();
-        //TODO: recount opened and endpoint
+        //TODO: recount only if hexagons are cut
+        // recount opened and endpoint
+        totalRecount();
     }
 
     void removeCluster(List<GraphGameHexagon> list) {
@@ -131,7 +127,6 @@ public class FieldGraph implements Drawable {
         opened.clear();
         endpoints.clear();
 
-        Set<GraphGameHexagon> newOpened = new TreeSet<>();
         final Set<GraphGameHexagon> newEndpoints = new TreeSet<>();
 
         final Queue<GraphGameHexagon> queue = new LinkedList<>();

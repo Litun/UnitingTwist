@@ -8,8 +8,8 @@ import android.support.annotation.NonNull;
 public class GraphGameHexagon extends GameHexagonContainer implements Comparable<GraphGameHexagon> {
     private int i;
     private int j;
-    boolean visited = false;
-    Point graphPoint;
+    private boolean visited = false;
+    private Point graphPoint;
 
     public GraphGameHexagon(int i, int j, Point p) {
 

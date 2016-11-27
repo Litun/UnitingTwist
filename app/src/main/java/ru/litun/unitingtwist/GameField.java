@@ -19,8 +19,6 @@ public class GameField implements Drawable {
     public static final int DIM = 9;
     FieldGraph graph = new FieldGraph(DIM);
 
-    //List<GameHexagon> hexagons = new ArrayList<>((DIM * 2 - 1) ^ 2);
-
     public GameField() {
         GraphGameHexagon center = graph.getCenter();
         GameHexagon hexagon = new GameHexagon(center.getPoint());
@@ -84,8 +82,6 @@ public class GameField implements Drawable {
                 GameHexagon gameHexagon = new GameHexagon(point);
                 gameHexagon.setColor(random.nextInt(ColorUtils.colorsCount() - 1) + 1);
                 final FlyingGameHexagon flyingHexagon = new FlyingGameHexagon(gameHexagon);
-                double angleRad = Math.atan2(y, x);
-                angleRad += random.nextDouble() - 0.5;
                 flyingHexagon.setVector((float) -(x * k * velocity), (float) -(y * k * velocity));
                 velocity += 0.005;
 

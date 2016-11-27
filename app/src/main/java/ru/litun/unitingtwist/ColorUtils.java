@@ -8,13 +8,13 @@ import android.support.v4.content.ContextCompat;
  * Created by Litun on 10.04.2016.
  */
 public class ColorUtils {
-    public static float[] greyColor;
-    public static float[] redColor;
+    private static float[] greyColor;
+    private static float[] redColor;
     //public static float[] orangeColor;
-    public static float[] yellowColor;
-    public static float[] blueColor;
-    public static float[] oceanColor;
-    public static float[] greenColor;
+    private static float[] yellowColor;
+    private static float[] blueColor;
+    private static float[] oceanColor;
+    private static float[] greenColor;
 
     private static float[][] colors;
 
@@ -46,7 +46,7 @@ public class ColorUtils {
         colors = new float[][]{
                 greyColor,
                 redColor,
-                //
+                //orangeColor,
                 yellowColor,
                 blueColor,
                 oceanColor,
@@ -56,22 +56,6 @@ public class ColorUtils {
 
     public static float[] getColor(int n) {
         return colors[n % colors.length];
-//        switch (n) {
-//            case 1:
-//                return redColor;
-//            case 2:
-//                return orangeColor;
-//            case 3:
-//                return yellowColor;
-//            case 4:
-//                return blueColor;
-//            case 5:
-//                return oceanColor;
-//            case 6:
-//                return greenColor;
-//            default:
-//                return greyColor;
-//        }
     }
 
     public static int colorsCount() {

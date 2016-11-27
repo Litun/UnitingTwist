@@ -20,7 +20,7 @@ public class GameHexagonContainer implements Drawable {
 
     @Override
     public void update(long deltaTime) {
-
+        //do nothing
     }
 
     @Override
