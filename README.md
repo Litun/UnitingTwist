@@ -9,6 +9,8 @@ It is not just a simple game, but also a new approach to controls.
 
 [Gameplay record](https://www.youtube.com/watch?v=R2FHTSs2BoI)
 
+[Android Experiments page](https://www.androidexperiments.com/experiment/uniting-twist)
+
 License
 =======
 
